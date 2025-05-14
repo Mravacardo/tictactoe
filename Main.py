@@ -36,13 +36,13 @@ def get_text(i, j, gb, l1, l2):
             board[i][j] = "O"
         sign += 1
         button[i][j].config(text=board[i][j])
-        if winner(board, "X"):
+    if winner(board, "X"):
             gb.destroy()
             box = messagebox.showinfo("Winner", "Player 1 won the match")
-        elif winner(board, "O"):
+    elif winner(board, "O"):
             gb.destroy()
             box = messagebox.showinfo("Winner", "Player 2 won the match")
-        elif (isfull()):
+    elif (isfull()):
             gb.destroy()
             box = messagebox.showinfo("Tie Game", "Tie Game")
 
@@ -129,10 +129,10 @@ def get_text_pc(i, j, gb, l1, l2):
     if (x):
         if sign % 2 != 0:
             move = pc()
-            button[move[0]][move[1]].config(state=DISALED)
+            button[move[0]][move[1]].config(state=DISABLED)
             get_text_pc(move[0], move[1], gb, l1, l2)
 
-def gameboard_pc(gameboard, l1, l2):
+def gameboard_pc(game_board, l1, l2):
     global button
     button = []
     for i in range(3):
@@ -148,4 +148,58 @@ def gameboard_pc(gameboard, l1, l2):
             button[i][j].grid(row=m, column=n)
     game_board.mainloop()
 
-    
+def withpc(game_board):
+    game_board.destroy()
+    game_board = Tk()
+    game_board.title("Tic Tac Toe")
+    l1 = Button(game_board, text="Player : X", width=10)
+    l1.grid(row=1, column=1)
+    l2 = Button(game_board, text="Computer : O",
+                width=10, state=DISABLED)
+
+    l2.grid(row=2, column=1)
+    gameboard_pc(game_board, l1, l2)
+
+def withplayer(game_board):
+    game_board.destroy()
+    game_board = Tk()
+    game_board.title("Tic Tac Toe")
+    l1 = Button(game_board, text="Player : X", width=10)
+    l1.grid(row=1, column=1)
+    l2 = Button(game_board, text="Player 2 : O",
+                width=10, state=DISABLED)
+
+    l2.grid(row=2, column=1)
+    gameboard_pl(game_board, l1, l2)
+
+def play():
+    menu = Tk()
+    menu.geometry("250x250")
+    menu.title("Tic Tac Toe")
+    wpc = partial(withpc, menu)
+    wpl = partial(withplayer, menu)
+
+    head = Button(menu, text="---Welcome to tic tac toe---",
+                  activeforeground='red',
+                  activebackground="yellow", bg="red",
+                  fg="yellow", width=500, font='summer', bd=5)
+
+    B1 = Button(menu, text="Single Player", command=wpc,
+                activeforeground='red',
+                activebackground="yellow", bg="red",
+                fg="yellow", width=500, font='summer', bd=5)
+
+    B2 = Button(menu, text="Multi Player", command=wpl, activeforeground='red',
+                activebackground="yellow", bg="red", fg="yellow",
+                width=500, font='summer', bd=5)
+    B3 = Button(menu, text="Exit", command=menu.quit, activeforeground='red',
+                activebackground="yellow", bg="red", fg="yellow",
+                width=500, font='summer', bd=5)
+    head.pack(side='top')
+    B1.pack(side='top')
+    B2.pack(side='top')
+    B3.pack(side='top')
+    menu.mainloop()
+
+if __name__ == '__main__':
+    play()
